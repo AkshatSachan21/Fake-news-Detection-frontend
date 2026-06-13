@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Powered Fake News Detection System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+    <h1>AI-Powered Fake News Detection System</h1>
+    <p class="subtitle">NLP &amp; Machine Learning Based News Verification Platform</p>
+</header>
+
+<main class="container">
+
+    <section class="intro-card">
+        <h2>Detect Misinformation with Artificial Intelligence</h2>
+        <p>Analyze articles using TF-IDF, NLP preprocessing and Logistic Regression classification.</p>
+    </section>
+
+    <section class="stats-row">
+        <div class="stat-card">
+            <div class="stat-value">94.2%</div>
+            <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalCount">0</div>
+            <div class="stat-label">Predictions Made</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">Logistic Regression</div>
+            <div class="stat-label">Model</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value status-online">Online</div>
+            <div class="stat-label">Status</div>
+        </div>
+    </section>
+
+    <section class="analysis-card">
+        <h2>News Authenticity Analysis</h2>
+
+        <div class="input-mode-row">
+            <label class="radio-label">
+                <input type="radio" name="inputMode" value="text" checked onchange="switchInputMode('text')"> Paste text
+            </label>
+            <label class="radio-label">
+                <input type="radio" name="inputMode" value="url" onchange="switchInputMode('url')"> Paste article URL
+            </label>
+        </div>
+
+        <textarea id="news" placeholder="Paste a news article here..."></textarea>
+        <input id="newsUrl" class="url-input" type="url" placeholder="https://example.com/news/article" style="display:none;">
+
+        <div class="action-row">
+            <button class="btn-primary" onclick="checkNews()">Analyze News</button>
+            <button class="btn-secondary" onclick="clearText()">Clear</button>
+            <button class="btn-secondary" onclick="startVoice()">🎤 Speak News</button>
+            <span id="voiceStatus" class="voice-status">Click mic and speak</span>
+        </div>
+
+        <div id="result" class="result-text"></div>
+        <div id="probability" class="probability-text"></div>
+
+        <div class="confidence-container">
+            <div id="confidenceText" class="confidence-label"></div>
+            <div class="confidence-bar">
+                <div id="confidenceFill"></div>
+            </div>
+        </div>
+
+        <div id="explainability" class="explain-box" style="display:none;">
+            <h4>Why this prediction?</h4>
+            <div class="explain-row">
+                <div class="explain-col">
+                    <span class="explain-label fake-label">Pushed toward Fake</span>
+                    <div id="fakeWords" class="word-tags"></div>
+                </div>
+                <div class="explain-col">
+                    <span class="explain-label real-label">Pushed toward Real</span>
+                    <div id="realWords" class="word-tags"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="shareSection" class="share-section" style="display:none;">
+            <button class="btn-secondary" onclick="downloadResultCard()">⬇ Download Result Card</button>
+        </div>
+    </section>
+
+    <!-- Hidden canvas used to render the shareable result card -->
+    <canvas id="resultCanvas" width="800" height="450" style="display:none;"></canvas>
+
+    <section class="features-grid">
+        <div class="feature-card">✓ NLP Processing</div>
+        <div class="feature-card">✓ TF-IDF Vectorization</div>
+        <div class="feature-card">✓ ML Classification</div>
+        <div class="feature-card">✓ REST API Integration</div>
+        <div class="feature-card">✓ Real-Time Prediction</div>
+        <div class="feature-card">✓ Confidence Scoring</div>
+    </section>
+
+    <section class="info-grid">
+        <div class="info-card">
+            <h3>Model Details</h3>
+            <p>The Fake News Detection system uses Natural Language Processing to analyze textual content and extract meaningful patterns.</p>
+            <p>TF-IDF feature extraction converts text into numerical vectors, representing word importance in news articles.</p>
+            <p>A Logistic Regression classifier is trained on news datasets to distinguish between fake and real news articles.</p>
+            <h4>Model Workflow</h4>
+            <p class="workflow">Text Input → NLP Preprocessing → TF-IDF Conversion → Logistic Regression Classification → Result Output</p>
+            <h4>Advantages</h4>
+            <p>Fast prediction speed, lightweight processing, and high accuracy make it suitable for real-time applications.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>About This Project</h3>
+            <p>This Fake News Detection System uses Natural Language Processing and Machine Learning techniques to classify news articles as Fake or Real.</p>
+            <p>The system analyzes textual patterns, suspicious keywords, and misleading content structures commonly used in fake news.</p>
+            <p>The goal of this project is to reduce misinformation spread and help users verify news authenticity quickly.</p>
+            <h4>Problem Solved</h4>
+            <p>Social media platforms spread fake information rapidly. This system helps users automatically verify news credibility.</p>
+            <h4>Technologies Used</h4>
+            <p>NLP, TF-IDF, Logistic Regression, Python, Flask, and a Web Dashboard.</p>
+        </div>
+    </section>
+
+    <section class="stat-extra">
+        <div class="stat-card wide">
+            <div class="stat-value">44,898</div>
+            <div class="stat-label">Training Articles</div>
+        </div>
+        <div class="stat-card wide">
+            <div class="stat-value fake-count" id="fakeCount">0</div>
+            <div class="stat-label">Fake News Detected</div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    Developed by Akshat Sachan
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
